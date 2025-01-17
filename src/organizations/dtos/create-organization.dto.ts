@@ -1,4 +1,4 @@
-import { StringUtils } from '@libs/common/utils/string.utils';
+import { StringUtils } from '@common/utils/string.utils';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrganizationDto {

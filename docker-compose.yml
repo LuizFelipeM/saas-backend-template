@@ -6,6 +6,7 @@ services:
     depends_on:
       - st-rabbitmq
       - st-postgres
+      - st-permitio
     build:
       context: .
       dockerfile: ./Dockerfile.dev
@@ -66,11 +67,7 @@ services:
     ports:
       - 80:80
     depends_on:
-      - st-orchestrator
-      - st-crm-int
-      - st-feedback
-      - st-payment
-      - st-user-management
+      - st-backend
     networks:
       - st-services-net
   

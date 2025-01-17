@@ -17,4 +17,4 @@ FROM base
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 
-CMD ["node", "dist/apps/user-management/main"]
+CMD ["node", "dist/main"]

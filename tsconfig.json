@@ -29,6 +29,12 @@
       ],
       "@contracts/*": [
         "src/contracts/*"
+      ],
+      "@clients": [
+        "src/clients"
+      ],
+      "@clients/*": [
+        "src/clients/*"
       ]
     }
   }

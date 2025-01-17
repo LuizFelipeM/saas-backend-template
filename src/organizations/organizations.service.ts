@@ -1,14 +1,13 @@
 import {
   ClerkClient,
-  createClerkClient,
   Organization,
   OrganizationInvitation,
 } from '@clerk/backend';
 import { OrganizationInvitationStatus } from '@clerk/types';
+import { CLERK_CLIENT, PERMIT_CLIENT } from '@clients';
 import { PaginatedResource } from '@contracts/paginated-resource';
 import { PaginationParams } from '@contracts/pagination-params';
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Permit, PermitApiError } from 'permitio';
 import { Role } from '../users/role';
 import { CreateOrganizationDto } from './dtos/create-organization.dto';
@@ -17,24 +16,11 @@ import { UpdateOrganizationDto } from './dtos/update-organization.dto';
 @Injectable()
 export class OrganizationsService {
   private readonly logger = new Logger(OrganizationsService.name);
-  private readonly clerk: ClerkClient;
-  private readonly permit: Permit;
 
-  constructor(private readonly configService: ConfigService) {
-    this.clerk = createClerkClient({
-      secretKey: this.configService.get<string>('CLERK_SECRET_KEY'),
-      publishableKey: this.configService.get<string>('CLERK_PUBLISHABLE_KEY'),
-    });
-
-    this.permit = new Permit({
-      pdp: this.configService.get<string>('PERMITIO_PDP'),
-      token: this.configService.get<string>('PERMITIO_SECRET_KEY'),
-      throwOnError: false,
-      multiTenancy: {
-        useDefaultTenantIfEmpty: true,
-      },
-    });
-  }
+  constructor(
+    @Inject(CLERK_CLIENT) private readonly clerkClient: ClerkClient,
+    @Inject(PERMIT_CLIENT) private readonly permitClient: Permit,
+  ) {}
 
   async create({
     userId,
@@ -46,7 +32,7 @@ export class OrganizationsService {
     try {
       let organization = await this.getUserOrganization(userId);
       if (!organization) {
-        organization = await this.clerk.organizations.createOrganization({
+        organization = await this.clerkClient.organizations.createOrganization({
           name,
           createdBy: userId,
           maxAllowedMemberships: maxUsers,
@@ -73,16 +59,16 @@ export class OrganizationsService {
     attributes?: Record<string, unknown>,
   ): Promise<void> {
     try {
-      const tenant = await this.permit.api.tenants.get(organizationId);
+      const tenant = await this.permitClient.api.tenants.get(organizationId);
       if (tenant) {
-        await this.permit.api.tenants.update(organizationId, {
+        await this.permitClient.api.tenants.update(organizationId, {
           name,
           attributes,
         });
       }
     } catch (error) {
       if (error instanceof PermitApiError)
-        await this.permit.api.tenants.create({
+        await this.permitClient.api.tenants.create({
           key: organizationId,
           name,
           attributes,
@@ -99,16 +85,14 @@ export class OrganizationsService {
     attributes,
   }: UpdateOrganizationDto): Promise<Organization> {
     try {
-      const organization = await this.clerk.organizations.updateOrganization(
-        id,
-        {
+      const organization =
+        await this.clerkClient.organizations.updateOrganization(id, {
           name,
           maxAllowedMemberships: maxUsers,
           slug,
-        },
-      );
+        });
 
-      await this.permit.api.tenants.update(id, {
+      await this.permitClient.api.tenants.update(id, {
         name,
         attributes: { ...attributes, maxUserLicensesCount: maxUsers },
       });
@@ -122,7 +106,7 @@ export class OrganizationsService {
 
   async get(organizationId: string): Promise<Organization> {
     try {
-      return await this.clerk.organizations.getOrganization({
+      return await this.clerkClient.organizations.getOrganization({
         organizationId,
       });
     } catch (error) {
@@ -133,9 +117,10 @@ export class OrganizationsService {
 
   async getUserOrganization(userId: string): Promise<Organization | undefined> {
     try {
-      const { data } = await this.clerk.users.getOrganizationMembershipList({
-        userId,
-      });
+      const { data } =
+        await this.clerkClient.users.getOrganizationMembershipList({
+          userId,
+        });
       return data[0]?.organization;
     } catch (error) {
       this.logger.error(error);
@@ -149,7 +134,7 @@ export class OrganizationsService {
   ): Promise<PaginatedResource<string>> {
     try {
       const { data, totalCount } =
-        await this.clerk.organizations.getOrganizationMembershipList({
+        await this.clerkClient.organizations.getOrganizationMembershipList({
           organizationId,
           limit: pagination.limit,
           offset: pagination.offset,
@@ -172,7 +157,7 @@ export class OrganizationsService {
   ): Promise<PaginatedResource<OrganizationInvitation>> {
     try {
       const { data, totalCount } =
-        await this.clerk.organizations.getOrganizationInvitationList({
+        await this.clerkClient.organizations.getOrganizationInvitationList({
           organizationId,
           status,
           limit: pagination.limit,
@@ -192,7 +177,7 @@ export class OrganizationsService {
     role = Role.member,
   ): Promise<OrganizationInvitation> {
     try {
-      return await this.clerk.organizations.createOrganizationInvitation({
+      return await this.clerkClient.organizations.createOrganizationInvitation({
         emailAddress: email,
         inviterUserId,
         organizationId,
@@ -210,7 +195,7 @@ export class OrganizationsService {
     userId: string,
   ): Promise<OrganizationInvitation> {
     try {
-      return await this.clerk.organizations.revokeOrganizationInvitation({
+      return await this.clerkClient.organizations.revokeOrganizationInvitation({
         invitationId,
         organizationId,
         requestingUserId: userId,
