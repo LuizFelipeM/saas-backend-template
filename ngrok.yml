@@ -1,0 +1,10 @@
+version: 3
+agent:
+  log_level: info
+  log: stdout
+endpoints:
+  - name: nginx
+    description: NGINX tunnel
+    url: lenient-really-badger.ngrok-free.app
+    upstream:
+      url: ms-nginx:80
