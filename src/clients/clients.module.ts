@@ -6,6 +6,7 @@ import { CLERK_CLIENT, PERMIT_CLIENT } from './index';
 
 @Global()
 @Module({
+  exports: [CLERK_CLIENT, PERMIT_CLIENT],
   providers: [
     {
       provide: CLERK_CLIENT,
@@ -29,6 +30,5 @@ import { CLERK_CLIENT, PERMIT_CLIENT } from './index';
         }),
     },
   ],
-  exports: [CLERK_CLIENT, PERMIT_CLIENT],
 })
 export class ClientsModule {}

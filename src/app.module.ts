@@ -36,6 +36,5 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     FeedbacksModule,
     ClientsModule,
   ],
-  controllers: [],
 })
 export class AppModule {}
