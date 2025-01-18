@@ -11,7 +11,7 @@ import { JwtAuthGuard } from 'src/authentication/guards/jwt-auth.guard';
 import { AnswerSurveyDto } from './dtos/answer-survey.dto';
 import { FeedbacksService } from './feedbacks.service';
 
-@Controller()
+@Controller('feedbacks')
 @UseGuards(JwtAuthGuard)
 export class FeedbacksController {
   constructor(private readonly feedbackService: FeedbacksService) {}

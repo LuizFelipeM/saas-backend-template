@@ -16,14 +16,14 @@ import Stripe from 'stripe';
 import { CreateCheckoutSessionDto } from './dtos/create-checkout-session.dto';
 import { PaymentsService } from './payments.service';
 
-@Controller()
+@Controller('payments')
+@UseGuards(JwtAuthGuard)
 export class PaymentsController {
   private readonly logger = new Logger(PaymentsController.name);
 
   constructor(private readonly paymentService: PaymentsService) {}
 
   @Post('checkout')
-  // @UseGuards(JwtAuthGuard)
   @Redirect(undefined, HttpStatus.SEE_OTHER)
   async createCheckoutSession(
     @CurrentUserId() userId: string,
@@ -31,21 +31,13 @@ export class PaymentsController {
   ): Promise<{ url: string }> {
     const session = await this.paymentService.createCheckoutSession(
       userId,
-      // createCheckoutSessionDto.lookupKey
-      {
-        premium_platform_access: { quantity: { min: 1 } },
-        premium_platform_users_quantity_access: {
-          quantity: { min: 10, max: 100 },
-        },
-        platform_integration: { quantity: { min: 3, max: 5 } },
-      },
+      createCheckoutSessionDto.plans,
     );
 
     return { url: session.url };
   }
 
   @Get('list-price')
-  @UseGuards(JwtAuthGuard)
   async listPrice(
     @Query('lookupKey') lookupKey: string[],
   ): Promise<Stripe.Response<Stripe.ApiList<Stripe.Price>>> {
@@ -54,7 +46,6 @@ export class PaymentsController {
   }
 
   @Post('customer')
-  @UseGuards(JwtAuthGuard)
   @Redirect(undefined, HttpStatus.SEE_OTHER)
   async createCustomerPortalSession(): Promise<{ url: string }> {
     // Pending session management

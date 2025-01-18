@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthorizationModule } from './authorization/authorization.module';
@@ -26,6 +27,16 @@ import { WebhooksModule } from './webhooks/webhooks.module';
       }),
     }),
 
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        url: configService.get<string>('DB_CONNECTION_STRING'),
+        autoLoadEntities: true,
+        synchronize: true,
+      }),
+    }),
+
     OrganizationsModule,
     UsersModule,
     PaymentsModule,
@@ -36,5 +47,6 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     FeedbacksModule,
     ClientsModule,
   ],
+  exports: [TypeOrmModule],
 })
 export class AppModule {}

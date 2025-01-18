@@ -1,17 +1,27 @@
-import { Exchanges, RmqModule } from '@common';
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthenticationModule } from 'src/authentication/authentication.module';
+import { OrganizationsModule } from 'src/organizations/organizations.module';
+import { UsersModule } from 'src/users/users.module';
+import { PlanEntity } from './entities/plan.entity';
+import { CustomerSubscriptionEventHandler } from './event-handlers/customer-subscription/customer-subscription.event-handler';
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
-import { WebhooksController } from './webhooks/webhooks.controller';
+import { PlanRepository } from './repositories/plan.repository';
 
 @Module({
   imports: [
-    RmqModule.forRoot({ exchanges: [Exchanges.events] }),
+    TypeOrmModule.forFeature([PlanEntity]),
     AuthenticationModule,
+    OrganizationsModule,
+    UsersModule,
   ],
-  controllers: [PaymentsController, WebhooksController],
-  providers: [PaymentsService],
+  controllers: [PaymentsController],
+  providers: [
+    PaymentsService,
+    CustomerSubscriptionEventHandler,
+    PlanRepository,
+  ],
   exports: [PaymentsService],
 })
 export class PaymentsModule {}

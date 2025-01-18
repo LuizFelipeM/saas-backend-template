@@ -16,7 +16,7 @@ export class Question {
 }
 
 @Entity({ name: 'survey' })
-export class Survey extends AbstractEntity {
+export class SurveyEntity extends AbstractEntity {
   @Column({ name: 'user_id' })
   userId: string;
 

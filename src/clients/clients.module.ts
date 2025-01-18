@@ -2,11 +2,12 @@ import { createClerkClient } from '@clerk/backend';
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Permit } from 'permitio';
-import { CLERK_CLIENT, PERMIT_CLIENT } from './index';
+import Stripe from 'stripe';
+import { CLERK_CLIENT, PERMIT_CLIENT, STRIPE_CLIENT } from './index';
 
 @Global()
 @Module({
-  exports: [CLERK_CLIENT, PERMIT_CLIENT],
+  exports: [CLERK_CLIENT, PERMIT_CLIENT, STRIPE_CLIENT],
   providers: [
     {
       provide: CLERK_CLIENT,
@@ -28,6 +29,12 @@ import { CLERK_CLIENT, PERMIT_CLIENT } from './index';
             level: 'fatal',
           },
         }),
+    },
+    {
+      provide: STRIPE_CLIENT,
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        new Stripe(configService.get<string>('STRIPE_SECRET_KEY')),
     },
   ],
 })

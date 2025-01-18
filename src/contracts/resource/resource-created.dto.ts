@@ -1,35 +1,13 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { randomUUID } from 'crypto';
-import { ResourceTypes } from './resource-types';
+import { ResourceInstanceRead } from 'permitio/build/main/openapi';
 
 export class ResourceCreatedDto {
-  get id(): string {
-    return randomUUID();
+  id: string;
+  organizationId: string;
+  attributes: Record<string, unknown>;
+
+  constructor(resource: ResourceInstanceRead) {
+    this.id = resource.key;
+    this.organizationId = String(resource.tenant);
+    this.attributes = resource.attributes as Record<string, unknown>;
   }
-
-  /**
-   * Type of resource
-   */
-  @IsEnum(ResourceTypes)
-  @IsNotEmpty()
-  type: ResourceTypes;
-
-  /**
-   * Resource name must be unique
-   */
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  /**
-   * User executing the action on the resource
-   */
-  @IsString()
-  @IsNotEmpty()
-  userId: string;
-
-  /**
-   * Resource extra attributes
-   */
-  attributes?: Record<string, unknown>;
 }
