@@ -18,24 +18,12 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@common": [
-        "src/common"
-      ],
-      "@common/*": [
-        "src/common/*"
-      ],
-      "@contracts": [
-        "src/contracts"
-      ],
-      "@contracts/*": [
-        "src/contracts/*"
-      ],
-      "@clients": [
-        "src/clients"
-      ],
-      "@clients/*": [
-        "src/clients/*"
-      ]
+      "@services/common": ["apps/services/src/common"],
+      "@services/common/*": ["apps/services/src/common/*"],
+      "@services/contracts": ["apps/services/src/contracts"],
+      "@services/contracts/*": ["apps/services/src/contracts/*"],
+      "@services/clients": ["apps/services/src/clients"],
+      "@services/clients/*": ["apps/services/src/clients/*"]
     }
   }
 }
