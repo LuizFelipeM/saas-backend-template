@@ -24,8 +24,8 @@ export class ResourcesController implements ResourcesServiceController {
     const result = await this.resourcesService.create(request);
     return {
       id: result.id,
-      organizationId: result.organization_id,
-      attributes: Object.entries(result.attributes).reduce(
+      organizationId: result.tenant,
+      attributes: Object.entries(result.attributes ?? {}).reduce(
         (acc, [key, value]) => ({ ...acc, [key]: value }),
         {},
       ),
@@ -38,8 +38,8 @@ export class ResourcesController implements ResourcesServiceController {
     const result = await this.resourcesService.update(request);
     return {
       id: result.id,
-      organizationId: result.organization_id,
-      attributes: Object.entries(result.attributes).reduce(
+      organizationId: result.tenant,
+      attributes: Object.entries(result.attributes ?? {}).reduce(
         (acc, [key, value]) => ({ ...acc, [key]: value }),
         {},
       ),

@@ -17,22 +17,15 @@ export class ResourcesService {
 
   async create(resource: CreateResourceRequest): Promise<ResourceInstanceRead> {
     try {
-      this.logger.log(`Input ${JSON.stringify(resource)}`);
-      const config = {
+      return await this.permitClient.api.resourceInstances.create({
         key: resource.id,
         resource: ResourceTypes[resource.type],
         attributes: resource.attributes,
         tenant: resource.organizationId,
-      };
-      this.logger.log(`Input ${JSON.stringify(resource)}`);
-      return await Promise.resolve({
-        created_at,
-        environment_id,
-        key,
       });
-      // return await this.permitClient.api.resourceInstances.create(config);
     } catch (error) {
       this.logger.error(JSON.stringify(error));
+      throw error;
     }
   }
 
@@ -43,10 +36,16 @@ export class ResourcesService {
       });
     } catch (error) {
       this.logger.error(JSON.stringify(error));
+      throw error;
     }
   }
 
   async delete(resource: DeleteResourceRequest): Promise<void> {
-    await this.permitClient.api.resourceInstances.delete(resource.id);
+    try {
+      await this.permitClient.api.resourceInstances.delete(resource.id);
+    } catch (error) {
+      this.logger.error(JSON.stringify(error));
+      throw error;
+    }
   }
 }
