@@ -5,7 +5,11 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/services/tsconfig.app.json"
+    "tsConfigPath": "apps/services/tsconfig.app.json",
+    "assets": [
+      "**/*.proto"
+    ],
+    "watchAssets": true
   },
   "monorepo": true,
   "root": "apps/services",
@@ -26,6 +30,24 @@
       "sourceRoot": "apps/main/src",
       "compilerOptions": {
         "tsConfigPath": "apps/main/tsconfig.app.json"
+      }
+    },
+    "protos": {
+      "type": "library",
+      "root": "libs/protos",
+      "entryFile": "index",
+      "sourceRoot": "libs/protos/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/protos/tsconfig.lib.json"
+      }
+    },
+    "api": {
+      "type": "application",
+      "root": "apps/api",
+      "entryFile": "main",
+      "sourceRoot": "apps/api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api/tsconfig.app.json"
       }
     }
   }

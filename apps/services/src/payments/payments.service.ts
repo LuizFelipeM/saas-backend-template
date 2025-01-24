@@ -49,7 +49,7 @@ export class PaymentsService {
     );
 
     const user = await this.authenticationService.getUserById(userId);
-    const domain = this.configService.get<string>('DOMAIN');
+    const domain = this.configService.getOrThrow<string>('DOMAIN');
     const userEmail = user.emailAddresses[0].emailAddress;
     const session = await this.stripeClient.checkout.sessions.create({
       line_items: prices.data.map<LineItem>(({ id, lookup_key }) => {
@@ -102,7 +102,7 @@ export class PaymentsService {
 
     const session = await this.stripeClient.billingPortal.sessions.create({
       customer,
-      return_url: this.configService.get<string>('DOMAIN'),
+      return_url: this.configService.getOrThrow<string>('DOMAIN'),
     });
 
     return session;
@@ -111,7 +111,7 @@ export class PaymentsService {
   async processEvent(request: RawBodyRequest<Request>): Promise<void> {
     let event = request.body as Stripe.Event;
 
-    const endpointSecret = this.configService.get<string>(
+    const endpointSecret = this.configService.getOrThrow<string>(
       'STRIPE_ENDPOINT_SECRET',
     );
 

@@ -1,41 +1,52 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { PERMIT_CLIENT } from '@services/clients';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
-  CreateResourceDto,
-  DeleteResourceDto,
-  ResourceCreatedDto,
-  ResourceUpdatedDto,
-  UpdateResourceDto,
-} from '@services/contracts/resource';
+  CreateResourceRequest,
+  DeleteResourceRequest,
+  ResourceTypes,
+  UpdateResourceRequest,
+} from '@protos/resources.service';
+import { PERMIT_CLIENT } from '@services/clients';
 import { Permit } from 'permitio';
+import { ResourceInstanceRead } from 'permitio/build/main/openapi';
 
 @Injectable()
 export class ResourcesService {
+  private readonly logger = new Logger(ResourcesService.name);
+
   constructor(@Inject(PERMIT_CLIENT) private readonly permitClient: Permit) {}
 
-  async create(resource: CreateResourceDto): Promise<ResourceCreatedDto> {
-    const res = await this.permitClient.api.resourceInstances.create({
-      key: resource.id,
-      resource: resource.type,
-      attributes: resource.attributes,
-      tenant: resource.organizationId,
-    });
-
-    return new ResourceCreatedDto(res);
-  }
-
-  async update(resource: UpdateResourceDto): Promise<ResourceUpdatedDto> {
-    const res = await this.permitClient.api.resourceInstances.update(
-      resource.id,
-      {
+  async create(resource: CreateResourceRequest): Promise<ResourceInstanceRead> {
+    try {
+      this.logger.log(`Input ${JSON.stringify(resource)}`);
+      const config = {
+        key: resource.id,
+        resource: ResourceTypes[resource.type],
         attributes: resource.attributes,
-      },
-    );
-
-    return new ResourceUpdatedDto(res);
+        tenant: resource.organizationId,
+      };
+      this.logger.log(`Input ${JSON.stringify(resource)}`);
+      return await Promise.resolve({
+        created_at,
+        environment_id,
+        key,
+      });
+      // return await this.permitClient.api.resourceInstances.create(config);
+    } catch (error) {
+      this.logger.error(JSON.stringify(error));
+    }
   }
 
-  async delete(resource: DeleteResourceDto): Promise<void> {
+  async update(resource: UpdateResourceRequest): Promise<ResourceInstanceRead> {
+    try {
+      return await this.permitClient.api.resourceInstances.update(resource.id, {
+        attributes: resource.attributes,
+      });
+    } catch (error) {
+      this.logger.error(JSON.stringify(error));
+    }
+  }
+
+  async delete(resource: DeleteResourceRequest): Promise<void> {
     await this.permitClient.api.resourceInstances.delete(resource.id);
   }
 }

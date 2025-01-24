@@ -20,7 +20,7 @@ import { MainService } from './main.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get<string>('DB_CONNECTION_STRING'),
+        url: configService.getOrThrow<string>('DB_CONNECTION_STRING'),
         autoLoadEntities: true,
         synchronize: true,
       }),

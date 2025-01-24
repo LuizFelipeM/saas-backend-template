@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package services;
+
+service ResourcesService {
+    rpc Create (CreateResourceRequest) returns (CreateResourceResponse);
+    rpc Update (UpdateResourceRequest) returns (UpdateResourceResponse);
+    rpc Delete (DeleteResourceRequest) returns (DeleteResourceResponse);
+}
+
+enum ResourceTypes {
+    UNSPECIFIED = 0;
+    INTEGRATION = 1;
+}
+
+message CreateResourceRequest {
+    string id = 1;
+    string organization_id = 2;
+    ResourceTypes type = 3;
+    map<string, string> attributes = 4;
+}
+
+message CreateResourceResponse {
+    string id = 1;
+    string organization_id = 2;
+    map<string, string> attributes = 3;
+}
+
+message DeleteResourceRequest {
+    string id = 1;
+}
+
+message DeleteResourceResponse {
+}
+
+message UpdateResourceRequest {
+    string id = 1;
+    optional string organization_id = 2;
+    optional ResourceTypes type = 3;
+    map<string, string> attributes = 4;
+}
+
+message UpdateResourceResponse {
+    string id = 1;
+    string organization_id = 2;
+    map<string, string> attributes = 3;
+}

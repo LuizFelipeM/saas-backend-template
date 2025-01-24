@@ -14,8 +14,10 @@ import { CLERK_CLIENT, PERMIT_CLIENT, STRIPE_CLIENT } from './index';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
         createClerkClient({
-          secretKey: configService.get<string>('CLERK_SECRET_KEY'),
-          publishableKey: configService.get<string>('CLERK_PUBLISHABLE_KEY'),
+          secretKey: configService.getOrThrow<string>('CLERK_SECRET_KEY'),
+          publishableKey: configService.getOrThrow<string>(
+            'CLERK_PUBLISHABLE_KEY',
+          ),
         }),
     },
     {
@@ -23,18 +25,18 @@ import { CLERK_CLIENT, PERMIT_CLIENT, STRIPE_CLIENT } from './index';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
         new Permit({
-          pdp: configService.get<string>('PERMITIO_PDP'),
-          token: configService.get<string>('PERMITIO_SECRET_KEY'),
-          log: {
-            level: 'fatal',
-          },
+          pdp: configService.getOrThrow<string>('PERMITIO_PDP'),
+          token: configService.getOrThrow<string>('PERMITIO_SECRET_KEY'),
+          // log: {
+          //   level: 'fatal',
+          // },
         }),
     },
     {
       provide: STRIPE_CLIENT,
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
-        new Stripe(configService.get<string>('STRIPE_SECRET_KEY')),
+        new Stripe(configService.getOrThrow<string>('STRIPE_SECRET_KEY')),
     },
   ],
 })

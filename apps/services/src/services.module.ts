@@ -24,6 +24,8 @@ import { WebhooksModule } from './webhooks/webhooks.module';
         STRIPE_PUBLISHABLE_KEY: Joi.string().required(),
         STRIPE_SECRET_KEY: Joi.string().required(),
         STRIPE_ENDPOINT_SECRET: Joi.string().allow(''),
+        PERMITIO_PDP: Joi.string().required(),
+        PERMITIO_SECRET_KEY: Joi.string().required(),
       }),
     }),
 
@@ -31,7 +33,7 @@ import { WebhooksModule } from './webhooks/webhooks.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get<string>('DB_CONNECTION_STRING'),
+        url: configService.getOrThrow<string>('DB_CONNECTION_STRING'),
         autoLoadEntities: true,
         synchronize: true,
       }),

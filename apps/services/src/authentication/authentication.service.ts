@@ -14,8 +14,8 @@ export class AuthenticationService {
   private readonly clerkClient: ClerkClient;
 
   constructor(private readonly configService: ConfigService) {
-    const secretKey = this.configService.get<string>('CLERK_SECRET_KEY');
-    const publishableKey = this.configService.get<string>(
+    const secretKey = this.configService.getOrThrow<string>('CLERK_SECRET_KEY');
+    const publishableKey = this.configService.getOrThrow<string>(
       'CLERK_PUBLISHABLE_KEY',
     );
 
@@ -36,8 +36,8 @@ export class AuthenticationService {
   async verify(token: string): Promise<JwtPayload> {
     try {
       return await verifyToken(token, {
-        secretKey: this.configService.get<string>('CLERK_SECRET_KEY'),
-        authorizedParties: this.configService.get<string[]>(
+        secretKey: this.configService.getOrThrow<string>('CLERK_SECRET_KEY'),
+        authorizedParties: this.configService.getOrThrow<string[]>(
           'CLERK_AUTHORIZED_PARTIES',
         ),
       });

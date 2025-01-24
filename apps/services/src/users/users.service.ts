@@ -25,7 +25,7 @@ export class UsersService {
     private readonly configService: ConfigService,
   ) {
     this.clerkWebhook = new Webhook(
-      this.configService.get<string>('CLERK_SIGNING_SECRET'),
+      this.configService.getOrThrow<string>('CLERK_SIGNING_SECRET'),
     );
   }
 

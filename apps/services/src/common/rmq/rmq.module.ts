@@ -36,7 +36,7 @@ export class RmqModule {
             configService: ConfigService,
           ): RabbitMQConfig | Promise<RabbitMQConfig> => ({
             enableControllerDiscovery: true,
-            uri: configService.get<string>('RABBIT_MQ_URL'),
+            uri: configService.getOrThrow<string>('RABBIT_MQ_URL'),
             exchanges: exchanges.map((e) => e.config),
             channels,
             prefetchCount,
