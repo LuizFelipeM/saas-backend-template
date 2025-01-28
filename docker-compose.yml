@@ -1,27 +1,55 @@
 name: saas-template
 
 services:
-  st-backend:
-    container_name: st-backend
+  st-services:
+    container_name: st-services
     depends_on:
       - st-rabbitmq
       - st-postgres
       - st-permitio
     build:
       context: .
-      dockerfile: ./Dockerfile.dev
-    command: pnpm start:debug
+      dockerfile: ./apps/services/Dockerfile.dev
+    command: pnpm start:debug services
     env_file:
-      - ./.env
+      - ./apps/services/.env
     environment:
       RABBIT_MQ_URL: "amqp://admin:password@st-rabbitmq/"
       DB_CONNECTION_STRING: "postgresql://postgres:password@st-postgres/database"
     volumes:
-      - ./src:/app/src
+      - ./apps/services:/app/apps/services
+      - ./libs:/app/libs
+      - ./protos:/app/protos
+    ports:
+      - 9230:9229
+      - 5000:5000
+    networks:
+      - st-network
+  
+  st-main:
+    container_name: st-main
+    depends_on:
+      - st-rabbitmq
+      - st-postgres
+      - st-services
+    build:
+      context: .
+      dockerfile: ./apps/main/Dockerfile.dev
+    command: pnpm start:debug main
+    env_file:
+      - ./apps/main/.env
+    environment:
+      RABBIT_MQ_URL: "amqp://admin:password@st-rabbitmq/"
+      DB_CONNECTION_STRING: "postgresql://postgres:password@st-postgres/database"
+    volumes:
+      - ./apps/main:/app/apps/main
+      - ./libs:/app/libs
+      - ./protos:/app/protos
     ports:
       - 9229:9229
+      - 5001:5000
     networks:
-      - st-services-net
+      - st-network
   
   # region Cloud services
   st-rabbitmq:
@@ -41,7 +69,7 @@ services:
       - rabbitmqdata:/var/lib/rabbitmq
       - rabbitmqlog:/var/log/rabbitmq
     networks:
-      - st-services-net
+      - st-network
 
   st-postgres:
     container_name: st-postgres
@@ -57,7 +85,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - st-services-net
+      - st-network
 
   st-nginx:
     container_name: st-nginx
@@ -67,9 +95,10 @@ services:
     ports:
       - 80:80
     depends_on:
-      - st-backend
+      - st-services
+      - st-main
     networks:
-      - st-services-net
+      - st-network
   
   st-ngrok:
     container_name: st-ngrok
@@ -89,7 +118,7 @@ services:
     depends_on:
       - st-nginx
     networks:
-      - st-services-net
+      - st-network
   
   st-permitio:
     container_name: st-permitio
@@ -100,7 +129,7 @@ services:
     ports:
       - 7766:7000
     networks:
-      - st-services-net
+      - st-network
   
   # endregion
 
@@ -112,5 +141,5 @@ volumes:
   # endregion
 
 networks:
-  st-services-net:
+  st-network:
     driver: bridge

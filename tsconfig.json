@@ -18,23 +18,11 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@common": [
-        "src/common"
+      "@protos": [
+        "libs/protos/src"
       ],
-      "@common/*": [
-        "src/common/*"
-      ],
-      "@contracts": [
-        "src/contracts"
-      ],
-      "@contracts/*": [
-        "src/contracts/*"
-      ],
-      "@clients": [
-        "src/clients"
-      ],
-      "@clients/*": [
-        "src/clients/*"
+      "@protos/*": [
+        "libs/protos/src/*"
       ]
     }
   }
