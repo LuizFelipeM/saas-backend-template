@@ -18,24 +18,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@services/common": [
-        "apps/services/src/common"
-      ],
-      "@services/common/*": [
-        "apps/services/src/common/*"
-      ],
-      "@services/contracts": [
-        "apps/services/src/contracts"
-      ],
-      "@services/contracts/*": [
-        "apps/services/src/contracts/*"
-      ],
-      "@services/clients": [
-        "apps/services/src/clients"
-      ],
-      "@services/clients/*": [
-        "apps/services/src/clients/*"
-      ],
       "@protos": [
         "libs/protos/src"
       ],

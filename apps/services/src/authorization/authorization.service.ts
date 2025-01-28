@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { PERMIT_CLIENT } from '@services/clients';
 import { IResource, IUser, Permit } from 'permitio';
+import { PERMIT_CLIENT } from '../clients';
 
 @Injectable()
 export class AuthorizationService {

@@ -1,5 +1,5 @@
-import { CryptoUtils } from '@services/common/utils/crypto.utils';
 import { IsNotEmpty, IsNotEmptyObject, IsString } from 'class-validator';
+import { CryptoUtils } from '../../common/utils/crypto.utils';
 
 export class Event<D, T = string> {
   @IsString()

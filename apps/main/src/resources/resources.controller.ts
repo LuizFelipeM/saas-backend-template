@@ -1,16 +1,14 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Body, Controller, Inject, OnModuleInit, Post } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import {
   CreateResourceRequest,
-  CreateResourceResponse,
   RESOURCES_SERVICE_NAME,
   ResourcesServiceClient,
   SERVICES_PACKAGE_NAME,
 } from '@protos/resources.service';
-import { Observable } from 'rxjs';
 
-@Injectable()
-export class ApiService implements OnModuleInit {
+@Controller('resources')
+export class ResourcesController implements OnModuleInit {
   private resourcesServiceClient: ResourcesServiceClient;
 
   constructor(
@@ -23,7 +21,8 @@ export class ApiService implements OnModuleInit {
       this.client.getService<ResourcesServiceClient>(RESOURCES_SERVICE_NAME);
   }
 
-  create(request: CreateResourceRequest): Observable<CreateResourceResponse> {
-    return this.resourcesServiceClient.create(request);
+  @Post()
+  create(@Body() payload: CreateResourceRequest) {
+    return this.resourcesServiceClient.create(payload);
   }
 }

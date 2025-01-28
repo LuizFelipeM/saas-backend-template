@@ -1,5 +1,5 @@
-import { AbstractEntity } from '@services/common';
 import { Column, Entity } from 'typeorm';
+import { AbstractEntity } from '../../common';
 
 export class Question {
   label: string;

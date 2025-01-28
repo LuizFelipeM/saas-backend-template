@@ -5,10 +5,10 @@ import {
 } from '@clerk/backend';
 import { OrganizationInvitationStatus } from '@clerk/types';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { CLERK_CLIENT, PERMIT_CLIENT } from '@services/clients';
-import { PaginatedResource } from '@services/contracts/paginated-resource';
-import { PaginationParams } from '@services/contracts/pagination-params';
 import { Permit, PermitApiError } from 'permitio';
+import { CLERK_CLIENT, PERMIT_CLIENT } from '../clients';
+import { PaginatedResource } from '../contracts/paginated-resource';
+import { PaginationParams } from '../contracts/pagination-params';
 import { Role } from '../users/role';
 import { CreateOrganizationDto } from './dtos/create-organization.dto';
 import { UpdateOrganizationDto } from './dtos/update-organization.dto';

@@ -1,8 +1,4 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { STRIPE_CLIENT } from '@services/clients';
-import { PaginationParams } from '@services/contracts/pagination-params';
-import { EntitlementDto } from '@services/contracts/payment/customer-subscription/entitlement.dto';
-import { SubscriptionStatus } from '@services/contracts/payment/customer-subscription/subscription-status';
 import Stripe from 'stripe';
 import {
   adjectives,
@@ -10,6 +6,10 @@ import {
   colors,
   uniqueNamesGenerator,
 } from 'unique-names-generator';
+import { STRIPE_CLIENT } from '../../../clients';
+import { PaginationParams } from '../../../contracts/pagination-params';
+import { EntitlementDto } from '../../../contracts/payment/customer-subscription/entitlement.dto';
+import { SubscriptionStatus } from '../../../contracts/payment/customer-subscription/subscription-status';
 import { CreateOrganizationDto } from '../../../organizations/dtos/create-organization.dto';
 import { OrganizationsService } from '../../../organizations/organizations.service';
 import { Role } from '../../../users/role';

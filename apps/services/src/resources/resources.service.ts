@@ -5,9 +5,9 @@ import {
   ResourceTypes,
   UpdateResourceRequest,
 } from '@protos/resources.service';
-import { PERMIT_CLIENT } from '@services/clients';
 import { Permit } from 'permitio';
 import { ResourceInstanceRead } from 'permitio/build/main/openapi';
+import { PERMIT_CLIENT } from '../clients';
 
 @Injectable()
 export class ResourcesService {

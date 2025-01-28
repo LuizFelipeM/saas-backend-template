@@ -1,4 +1,3 @@
-import { CryptoUtils } from '@services/common/utils/crypto.utils';
 import {
   IsInstance,
   IsNotEmpty,
@@ -6,6 +5,7 @@ import {
   IsString,
   ValidateIf,
 } from 'class-validator';
+import { CryptoUtils } from '../../common/utils/crypto.utils';
 
 export class CommandRequest<T, K = undefined> {
   @IsString()

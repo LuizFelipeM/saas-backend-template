@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, RawBodyRequest } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { STRIPE_CLIENT } from '@services/clients';
 import { Request } from 'express';
 import Stripe from 'stripe';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { STRIPE_CLIENT } from '../clients';
 import { CustomerSubscriptionEventHandler } from './event-handlers/customer-subscription/customer-subscription.event-handler';
 import { EventHandler } from './event-handlers/event-handler';
 import { PlanRepository } from './repositories/plan.repository';

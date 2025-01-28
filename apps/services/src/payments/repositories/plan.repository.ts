@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AbstractRepository } from '@services/common';
 import { Repository } from 'typeorm';
+import { AbstractRepository } from '../../common';
 import { PlanEntity } from '../entities/plan.entity';
 
 export class PlanRepository extends AbstractRepository<PlanEntity> {

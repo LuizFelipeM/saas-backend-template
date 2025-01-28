@@ -1,26 +1,6 @@
 name: saas-template
 
 services:
-  st-api:
-    container_name: st-api
-    depends_on:
-      - st-services
-      - st-main
-    build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile.dev
-    command: pnpm start:debug api
-    env_file:
-      - ./apps/api/.env
-    volumes:
-      - ./apps/api:/app/apps/api
-      - ./libs:/app/libs
-      - ./protos:/app/protos
-    ports:
-      - 9231:9229
-    networks:
-      - st-network
-
   st-services:
     container_name: st-services
     depends_on:
@@ -67,6 +47,7 @@ services:
       - ./protos:/app/protos
     ports:
       - 9229:9229
+      - 5001:5000
     networks:
       - st-network
   

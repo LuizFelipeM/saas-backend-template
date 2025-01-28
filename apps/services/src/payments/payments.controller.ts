@@ -10,9 +10,9 @@ import {
   Redirect,
   UseGuards,
 } from '@nestjs/common';
-import { CurrentUserId } from '@services/common/decorators';
 import Stripe from 'stripe';
 import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
+import { CurrentUserId } from '../common/decorators';
 import { CreateCheckoutSessionDto } from './dtos/create-checkout-session.dto';
 import { PaymentsService } from './payments.service';
 

@@ -1,11 +1,11 @@
 import { AmqpConnection, RequestOptions } from '@golevelup/nestjs-rabbitmq';
 import { Injectable, Logger } from '@nestjs/common';
+import { Options } from 'amqplib';
 import {
   Command,
   CommandResponse,
   Event,
-} from '@services/contracts/message-broker';
-import { Options } from 'amqplib';
+} from '../../contracts/message-broker';
 import { Exchange } from '../constants/exchange';
 import { Exchanges } from '../constants/exchanges';
 import { RoutingKey } from '../constants/routing-key';

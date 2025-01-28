@@ -1,5 +1,5 @@
-import { StringUtils } from '@services/common/utils/string.utils';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { StringUtils } from '../../common/utils/string.utils';
 
 export class CreateOrganizationDto {
   @IsString()

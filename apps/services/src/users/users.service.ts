@@ -7,10 +7,10 @@ import {
   RawBodyRequest,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CLERK_CLIENT, PERMIT_CLIENT } from '@services/clients';
 import { Request } from 'express';
 import { Permit, RoleAssignmentRead, RoleAssignmentRemove } from 'permitio';
 import { Webhook } from 'svix';
+import { CLERK_CLIENT, PERMIT_CLIENT } from '../clients';
 import { SyncUserDto } from './dtos/sync-user.dto';
 import { Role } from './role';
 
