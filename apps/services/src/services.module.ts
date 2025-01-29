@@ -6,11 +6,11 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthorizationModule } from './authorization/authorization.module';
 import { ClientsModule } from './clients/clients.module';
 import { FeedbacksModule } from './feedback/feedbacks.module';
+import { IntegrationsModule } from './integrations/integrations.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { PaymentsModule } from './payments/payments.module';
 import { ResourcesModule } from './resources/resources.module';
 import { UsersModule } from './users/users.module';
-import { WebhooksModule } from './webhooks/webhooks.module';
 
 @Module({
   imports: [
@@ -45,9 +45,9 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     ResourcesModule,
     AuthenticationModule,
     AuthorizationModule,
-    WebhooksModule,
     FeedbacksModule,
     ClientsModule,
+    IntegrationsModule,
   ],
   exports: [TypeOrmModule],
 })
