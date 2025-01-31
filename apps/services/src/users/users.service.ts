@@ -1,15 +1,6 @@
-import { ClerkClient, Organization, WebhookEvent } from '@clerk/backend';
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  Logger,
-  RawBodyRequest,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Request } from 'express';
+import { ClerkClient, Organization } from '@clerk/backend';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Permit, RoleAssignmentRead, RoleAssignmentRemove } from 'permitio';
-import { Webhook } from 'svix';
 import { CLERK_CLIENT, PERMIT_CLIENT } from '../clients';
 import { SyncUserDto } from './dtos/sync-user.dto';
 import { Role } from './role';
@@ -17,17 +8,11 @@ import { Role } from './role';
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
-  private readonly clerkWebhook: Webhook;
 
   constructor(
     @Inject(CLERK_CLIENT) private readonly clerkClient: ClerkClient,
     @Inject(PERMIT_CLIENT) private readonly permitClient: Permit,
-    private readonly configService: ConfigService,
-  ) {
-    this.clerkWebhook = new Webhook(
-      this.configService.getOrThrow<string>('CLERK_SIGNING_SECRET'),
-    );
-  }
+  ) {}
 
   async getUserOrganization(userId: string): Promise<Organization | undefined> {
     try {
@@ -107,40 +92,6 @@ export class UsersService {
       }
     } catch (error) {
       this.logger.error(error);
-    }
-  }
-
-  async processEvent(request: RawBodyRequest<Request>) {
-    try {
-      const event = this.clerkWebhook.verify(
-        request.rawBody.toString('utf8'),
-        request.headers as Record<string, string>,
-      ) as WebhookEvent;
-
-      if (event.type === 'user.created') {
-        const organizationId = event.data.organization_memberships?.[0]?.id;
-        if (!organizationId) return;
-
-        const userId = event.data.id;
-        const email = event.data.primary_email_address_id;
-
-        await this.sync({
-          userId,
-          organizationId,
-          email,
-        });
-      }
-
-      if (event.type === 'user.deleted') {
-        const userId = event.data.id;
-        const organization = await this.getUserOrganization(userId);
-        await this.revokePermissions(userId, organization.id);
-      }
-    } catch (err) {
-      this.logger.error(
-        `Error: Could not verify webhook: ${JSON.stringify(err)}`,
-      );
-      throw new BadRequestException('Error: Verification error');
     }
   }
 }

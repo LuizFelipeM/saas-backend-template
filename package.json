@@ -98,7 +98,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@protos/protos(|/.*)$": "<rootDir>/libs/protos/src/$1"
+      "^@protos/(|/.*)$": "<rootDir>/libs/protos/src/$1",
+      "^@common/(|/.*)$": "<rootDir>/libs/common/src/$1"
     }
   }
 }

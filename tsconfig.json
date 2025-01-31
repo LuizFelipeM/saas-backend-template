@@ -23,6 +23,12 @@
       ],
       "@protos/*": [
         "libs/protos/src/*"
+      ],
+      "@common": [
+        "libs/common/src"
+      ],
+      "@common/*": [
+        "libs/common/src/*"
       ]
     }
   }

@@ -10,4 +10,7 @@ message VerifyAuthenticationRequest {
     string token = 1;
 }
 
-message VerifyAuthenticationResponse {}
+message VerifyAuthenticationResponse {
+    bool authorized = 1;
+    map<string, string> token = 2;
+}

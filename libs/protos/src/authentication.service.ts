@@ -15,6 +15,13 @@ export interface VerifyAuthenticationRequest {
 }
 
 export interface VerifyAuthenticationResponse {
+  authorized: boolean;
+  token: { [key: string]: string };
+}
+
+export interface VerifyAuthenticationResponse_TokenEntry {
+  key: string;
+  value: string;
 }
 
 export const SERVICES_PACKAGE_NAME = "services";

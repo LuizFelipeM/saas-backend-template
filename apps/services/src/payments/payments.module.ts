@@ -8,6 +8,8 @@ import { CustomerSubscriptionEventHandler } from './event-handlers/customer-subs
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
 import { PlanRepository } from './repositories/plan.repository';
+import { WebhooksController } from './webhooks/webhooks.controller';
+import { WebhooksService } from './webhooks/webhooks.service';
 
 @Module({
   imports: [
@@ -16,11 +18,12 @@ import { PlanRepository } from './repositories/plan.repository';
     OrganizationsModule,
     UsersModule,
   ],
-  controllers: [PaymentsController],
+  controllers: [PaymentsController, WebhooksController],
   providers: [
     PaymentsService,
     CustomerSubscriptionEventHandler,
     PlanRepository,
+    WebhooksService,
   ],
   exports: [PaymentsService],
 })

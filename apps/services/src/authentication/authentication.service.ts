@@ -41,7 +41,7 @@ export class AuthenticationService {
           'CLERK_AUTHORIZED_PARTIES',
         ),
       });
-    } catch (err) {
+    } catch (error) {
       throw new UnauthorizedException('Invalid or expired token');
     }
   }

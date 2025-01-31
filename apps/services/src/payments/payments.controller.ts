@@ -11,8 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import Stripe from 'stripe';
-import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { CurrentUserId } from '../common/decorators';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CreateCheckoutSessionDto } from './dtos/create-checkout-session.dto';
 import { PaymentsService } from './payments.service';
 

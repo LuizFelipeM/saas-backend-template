@@ -1,7 +1,7 @@
+import { GrpcUtils } from '@common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { protobufPackage } from '@protos/resources.service';
-import { resolve } from 'node:path';
 import { ServicesModule } from './services.module';
 
 async function bootstrap() {
@@ -12,9 +12,7 @@ async function bootstrap() {
       options: {
         url: '0.0.0.0:5000',
         package: protobufPackage,
-        protoPath: [
-          resolve(__dirname, '../../../protos/src/resources.service.proto'),
-        ],
+        protoPath: GrpcUtils.getProtoPaths('../../../protos/src/services'),
       },
     },
   );
