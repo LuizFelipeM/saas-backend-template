@@ -8,12 +8,11 @@ import {
 } from 'unique-names-generator';
 import { STRIPE_CLIENT } from '../../../clients';
 import { PaginationParams } from '../../../contracts/pagination-params';
-import { EntitlementDto } from '../../../contracts/payment/customer-subscription/entitlement.dto';
-import { SubscriptionStatus } from '../../../contracts/payment/customer-subscription/subscription-status';
 import { CreateOrganizationDto } from '../../../organizations/dtos/create-organization.dto';
 import { OrganizationsService } from '../../../organizations/organizations.service';
 import { Role } from '../../../users/role';
 import { UsersService } from '../../../users/users.service';
+import { EntitlementDto } from '../../dtos/entitlement.dto';
 import { EventHandler } from '../event-handler';
 
 @Injectable()
@@ -70,7 +69,7 @@ export class CustomerSubscriptionEventHandler implements EventHandler {
   ): Promise<boolean> {
     const { userId, userEmail } = subscription.metadata;
 
-    if (subscription.status !== SubscriptionStatus.active) return;
+    if (subscription.status !== 'active') return;
 
     const entitlements = await this.getEntitlements(subscription);
     const userLicensesEntitlement = entitlements.find(
