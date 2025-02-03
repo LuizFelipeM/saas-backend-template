@@ -11,7 +11,7 @@ import { ClientGrpc } from '@nestjs/microservices';
 import {
   AUTHENTICATION_SERVICE_NAME,
   AuthenticationServiceClient,
-} from '@protos/authentication.service';
+} from '@protos/saas-proto-services/authentication.service';
 import { firstValueFrom } from 'rxjs';
 import { GRPC_SERVICES } from '../../grpc/grpc.services';
 

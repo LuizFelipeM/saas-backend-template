@@ -2,7 +2,7 @@
 // versions:
 //   protoc-gen-ts_proto  v2.6.1
 //   protoc               v3.21.12
-// source: protos/src/payments.service.proto
+// source: saas-proto-services/users.service.proto
 
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
@@ -10,38 +10,38 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "services";
 
-export interface PaymentWebhookRequest {
+export interface UserWebhookRequest {
 }
 
-export interface PaymentWebhookResponse {
+export interface UserWebhookResponse {
 }
 
 export const SERVICES_PACKAGE_NAME = "services";
 
-export interface PaymentsServiceClient {
-  processEvent(request: PaymentWebhookRequest, ...rest: any): Observable<PaymentWebhookResponse>;
+export interface UsersServiceClient {
+  processEvent(request: UserWebhookRequest, ...rest: any): Observable<UserWebhookResponse>;
 }
 
-export interface PaymentsServiceController {
+export interface UsersServiceController {
   processEvent(
-    request: PaymentWebhookRequest,
+    request: UserWebhookRequest,
     ...rest: any
-  ): Promise<PaymentWebhookResponse> | Observable<PaymentWebhookResponse> | PaymentWebhookResponse;
+  ): Promise<UserWebhookResponse> | Observable<UserWebhookResponse> | UserWebhookResponse;
 }
 
-export function PaymentsServiceControllerMethods() {
+export function UsersServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ["processEvent"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("PaymentsService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod("UsersService", method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("PaymentsService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod("UsersService", method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const PAYMENTS_SERVICE_NAME = "PaymentsService";
+export const USERS_SERVICE_NAME = "UsersService";

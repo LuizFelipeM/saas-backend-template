@@ -4,7 +4,7 @@ import {
   AuthenticationServiceControllerMethods,
   VerifyAuthenticationRequest,
   VerifyAuthenticationResponse,
-} from '@protos/authentication.service';
+} from '@protos/saas-proto-services/authentication.service';
 import { ProtoMessageUtils } from '@protos/utils/proto-message.utils';
 import { AuthenticationService } from './authentication.service';
 

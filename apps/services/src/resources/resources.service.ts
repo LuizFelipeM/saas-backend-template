@@ -4,7 +4,7 @@ import {
   DeleteResourceRequest,
   ResourceTypes,
   UpdateResourceRequest,
-} from '@protos/resources.service';
+} from '@protos/saas-proto-services/resources.service';
 import { Permit } from 'permitio';
 import { ResourceInstanceRead } from 'permitio/build/main/openapi';
 import { PERMIT_CLIENT } from '../clients';

@@ -8,7 +8,7 @@ import {
   ResourcesServiceControllerMethods,
   UpdateResourceRequest,
   UpdateResourceResponse,
-} from '@protos/resources.service';
+} from '@protos/saas-proto-services/resources.service';
 import { ResourcesService } from './resources.service';
 
 @Controller()

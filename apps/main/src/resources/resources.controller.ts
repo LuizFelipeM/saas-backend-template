@@ -12,7 +12,7 @@ import {
   CreateResourceRequest,
   RESOURCES_SERVICE_NAME,
   ResourcesServiceClient,
-} from '@protos/resources.service';
+} from '@protos/saas-proto-services/resources.service';
 
 @Controller('resources')
 @UseGuards(JwtAuthGuard)
