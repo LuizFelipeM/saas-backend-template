@@ -6,8 +6,8 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { CurrentUserId } from '../common/decorators';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { AnswerSurveyDto } from './dtos/answer-survey.dto';
 import { FeedbacksService } from './feedbacks.service';
 

@@ -1,6 +1,6 @@
 import { Organization } from '@clerk/backend';
 import { Body, Controller, Logger, Put, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { UpdateOrganizationDto } from './dtos/update-organization.dto';
 import { OrganizationsService } from './organizations.service';
 

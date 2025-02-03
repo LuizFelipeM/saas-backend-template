@@ -72,24 +72,27 @@ export interface UpdateResourceResponse_AttributesEntry {
 export const SERVICES_PACKAGE_NAME = "services";
 
 export interface ResourcesServiceClient {
-  create(request: CreateResourceRequest): Observable<CreateResourceResponse>;
+  create(request: CreateResourceRequest, ...rest: any): Observable<CreateResourceResponse>;
 
-  update(request: UpdateResourceRequest): Observable<UpdateResourceResponse>;
+  update(request: UpdateResourceRequest, ...rest: any): Observable<UpdateResourceResponse>;
 
-  delete(request: DeleteResourceRequest): Observable<DeleteResourceResponse>;
+  delete(request: DeleteResourceRequest, ...rest: any): Observable<DeleteResourceResponse>;
 }
 
 export interface ResourcesServiceController {
   create(
     request: CreateResourceRequest,
+    ...rest: any
   ): Promise<CreateResourceResponse> | Observable<CreateResourceResponse> | CreateResourceResponse;
 
   update(
     request: UpdateResourceRequest,
+    ...rest: any
   ): Promise<UpdateResourceResponse> | Observable<UpdateResourceResponse> | UpdateResourceResponse;
 
   delete(
     request: DeleteResourceRequest,
+    ...rest: any
   ): Promise<DeleteResourceResponse> | Observable<DeleteResourceResponse> | DeleteResourceResponse;
 }
 
