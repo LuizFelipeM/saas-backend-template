@@ -1,4 +1,3 @@
-import { GRPC_SERVICES, JwtAuthGuard } from '@common';
 import {
   Body,
   Controller,
@@ -13,6 +12,7 @@ import {
   RESOURCES_SERVICE_NAME,
   ResourcesServiceClient,
 } from '@protos/saas-proto-services/resources.service';
+import { GRPC_SERVICES, JwtAuthGuard } from '../../../../libs/common/src';
 
 @Controller('resources')
 @UseGuards(JwtAuthGuard)

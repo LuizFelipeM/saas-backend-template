@@ -1,9 +1,8 @@
-import { AuthenticationModule, GrpcModule } from '@common';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
-import { ResourcesController } from './resources/resources.controller';
+import { ExampleModule } from './example/example.module';
 
 @Module({
   imports: [
@@ -12,7 +11,6 @@ import { ResourcesController } from './resources/resources.controller';
       envFilePath: './apps/main/.env',
       validationSchema: Joi.object({
         DB_CONNECTION_STRING: Joi.string().required(),
-        SERVICES_URL: Joi.string().required(),
       }),
     }),
 
@@ -25,10 +23,9 @@ import { ResourcesController } from './resources/resources.controller';
         synchronize: true,
       }),
     }),
-    GrpcModule,
-    AuthenticationModule,
+    ExampleModule,
   ],
-  controllers: [ResourcesController],
+  controllers: [],
   providers: [],
 })
 export class MainModule {}

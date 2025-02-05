@@ -37,11 +37,12 @@ export class AuthenticationService {
     try {
       return await verifyToken(token, {
         secretKey: this.configService.getOrThrow<string>('CLERK_SECRET_KEY'),
-        authorizedParties: this.configService.getOrThrow<string[]>(
+        authorizedParties: this.configService.get<string[]>(
           'CLERK_AUTHORIZED_PARTIES',
         ),
       });
     } catch (error) {
+      this.logger.error(error);
       throw new UnauthorizedException('Invalid or expired token');
     }
   }

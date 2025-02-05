@@ -5,13 +5,13 @@ import {
   Injectable,
   Logger,
   OnModuleInit,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import {
   AUTHENTICATION_SERVICE_NAME,
   AuthenticationServiceClient,
 } from '@protos/saas-proto-services/authentication.service';
+import { Request } from 'express';
 import { firstValueFrom } from 'rxjs';
 import { GRPC_SERVICES } from '../../grpc/grpc.services';
 
@@ -46,18 +46,14 @@ export class JwtAuthGuard implements CanActivate, OnModuleInit {
       return true;
     } catch (err) {
       this.logger.error(err);
-      throw new UnauthorizedException();
+      return false;
     }
   }
 
   private getAuthorization(ctx: ExecutionContext): string {
     if (ctx.getType() === 'http') {
-      const req = ctx.switchToHttp().getRequest();
-      return (
-        req.headers['authorization']?.split(' ')[1] ??
-        req.headers['Authorization']?.split(' ')[1] ??
-        req.cookie?.__session
-      );
+      const req = ctx.switchToHttp().getRequest<Request>();
+      return req.headers.authorization?.split(' ')[1] ?? req.cookies?.__session;
     }
 
     if (ctx.getType() === 'rpc') {
