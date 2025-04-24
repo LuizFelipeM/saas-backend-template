@@ -1,21 +1,23 @@
+import { GrpcUtils } from '@common/grpc';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { GrpcUtils } from '../../../libs/common/src';
-import { protobufPackage } from '../../../libs/protos/src/proto-main/example.service';
-import { MainModule } from './main.module';
+import { protobufPackage } from '@protos/proto-domain/example.service';
+import { DomainModule } from './domain.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    MainModule,
+    DomainModule,
     {
       transport: Transport.GRPC,
       options: {
         url: '0.0.0.0:5000',
         package: protobufPackage,
-        protoPath: GrpcUtils.getProtoPaths('../../../protos/proto-main'),
+        protoPath: GrpcUtils.getProtoPaths('../../../protos/proto-domain'),
       },
     },
   );
+
   await app.listen();
 }
+
 bootstrap();

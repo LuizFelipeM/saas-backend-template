@@ -1,4 +1,4 @@
-import { GRPC_MAIN, JwtAuthGuard } from '@common';
+import { GRPC_DOMAIN, JwtAuthGuard } from '@common';
 import {
   Controller,
   Get,
@@ -13,7 +13,7 @@ import {
   EXAMPLE_SERVICE_NAME,
   ExampleResponse,
   ExampleServiceClient,
-} from '@protos/proto-main/example.service';
+} from '@protos/proto-domain/example.service';
 import { Observable } from 'rxjs';
 
 @Controller('examples')
@@ -23,7 +23,7 @@ export class ExamplesController implements OnModuleInit {
   private exampleServiceClient: ExampleServiceClient;
 
   constructor(
-    @Inject(GRPC_MAIN)
+    @Inject(GRPC_DOMAIN)
     private readonly client: ClientGrpc,
   ) {}
 
@@ -34,6 +34,6 @@ export class ExamplesController implements OnModuleInit {
 
   @Get()
   greeting(@Query('name') name: string): Observable<ExampleResponse> {
-    return this.exampleServiceClient.greeting({ name });
+    return this.exampleServiceClient.getExample({ name });
   }
 }

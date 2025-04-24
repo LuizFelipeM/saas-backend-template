@@ -2,13 +2,13 @@
 // versions:
 //   protoc-gen-ts_proto  v2.6.1
 //   protoc               v3.21.12
-// source: proto-main/example.service.proto
+// source: proto-domain/example.service.proto
 
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "main";
+export const protobufPackage = "domain";
 
 export interface ExampleRequest {
   name: string;
@@ -18,14 +18,14 @@ export interface ExampleResponse {
   message: string;
 }
 
-export const MAIN_PACKAGE_NAME = "main";
+export const DOMAIN_PACKAGE_NAME = "domain";
 
 export interface ExampleServiceClient {
-  greeting(request: ExampleRequest, ...rest: any): Observable<ExampleResponse>;
+  getExample(request: ExampleRequest, ...rest: any): Observable<ExampleResponse>;
 }
 
 export interface ExampleServiceController {
-  greeting(
+  getExample(
     request: ExampleRequest,
     ...rest: any
   ): Promise<ExampleResponse> | Observable<ExampleResponse> | ExampleResponse;
@@ -33,7 +33,7 @@ export interface ExampleServiceController {
 
 export function ExampleServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["greeting"];
+    const grpcMethods: string[] = ["getExample"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("ExampleService", method)(constructor.prototype[method], method, descriptor);
