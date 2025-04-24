@@ -12,7 +12,7 @@ import { ResourcesController } from './resources/resources.controller';
       envFilePath: './apps/api/.env',
       validationSchema: Joi.object({
         ST_SERVICES_URL: Joi.string().required(),
-        ST_MAIN_URL: Joi.string().required(),
+        ST_DOMAIN_URL: Joi.string().required(),
       }),
     }),
 

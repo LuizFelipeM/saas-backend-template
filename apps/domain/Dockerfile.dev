@@ -1,9 +1,10 @@
-FROM node:lts-alpine AS base
+FROM node:lts-alpine as base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN npm i -g corepack@latest
 WORKDIR /app
+
 
 FROM base AS deps
 COPY package*.json pnpm*.yaml ./
@@ -14,4 +15,4 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
 EXPOSE 3000
-CMD ["pnpm", "start:debug", "main"]
+CMD ["pnpm", "start:debug", "domain"]

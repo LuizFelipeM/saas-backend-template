@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { MAIN_PACKAGE_NAME } from '@protos/proto-main/example.service';
+import { DOMAIN_PACKAGE_NAME } from '@protos/proto-domain/example.service';
 import { SERVICES_PACKAGE_NAME } from '@protos/saas-proto-services/authentication.service';
-import { GRPC_MAIN, GRPC_SERVICES } from './grpc.services';
+import { GRPC_DOMAIN, GRPC_SERVICES } from './grpc.services';
 import { GrpcUtils } from './grpc.utils';
 
 @Module({
@@ -24,14 +24,14 @@ import { GrpcUtils } from './grpc.utils';
         }),
       },
       {
-        name: GRPC_MAIN,
+        name: GRPC_DOMAIN,
         inject: [ConfigService],
         useFactory: (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
-            url: configService.getOrThrow<string>('ST_MAIN_URL'),
-            package: MAIN_PACKAGE_NAME,
-            protoPath: GrpcUtils.getProtoPaths('../../../protos/proto-main'),
+            url: configService.getOrThrow<string>('ST_DOMAIN_URL'),
+            package: DOMAIN_PACKAGE_NAME,
+            protoPath: GrpcUtils.getProtoPaths('../../../protos/proto-domain'),
           },
         }),
       },

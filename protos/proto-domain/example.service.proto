@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package main;
+package domain;
 
 service ExampleService {
-    rpc Greeting (ExampleRequest) returns (ExampleResponse);
+    rpc GetExample (ExampleRequest) returns (ExampleResponse) {}
 }
 
 message ExampleRequest {
